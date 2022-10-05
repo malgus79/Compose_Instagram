@@ -14,7 +14,6 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,13 +33,19 @@ fun LoginScreen(loginViewModel: LoginViewModel) {
         Modifier
             .fillMaxSize()
             .padding(8.dp)
-    )
-    {
-        Header(Modifier.align(Alignment.TopEnd))
-        Body(Modifier.align(Alignment.Center), loginViewModel)
-        Footer(Modifier.align(Alignment.BottomCenter))
+    ) {
+        val isLoading:Boolean by loginViewModel.isLoading.observeAsState(initial = false)
+        if (isLoading) {
+            Box(Modifier
+                .align(Alignment.Center)) {
+                CircularProgressIndicator()
+            }
+        } else {
+            Header(Modifier.align(Alignment.TopEnd))
+            Body(Modifier.align(Alignment.Center), loginViewModel)
+            Footer(Modifier.align(Alignment.BottomCenter))
+        }
     }
-
 }
 
 @Composable
@@ -92,7 +97,8 @@ fun Body(modifier: Modifier, loginViewModel: LoginViewModel) {
 //            email = it
 //            isLoginEnable = enableLogin(email, password)
 //        }
-            loginViewModel.onLoginChanged(email = it, password = password)  //le avisa al viewModel que el valor que se esta modificando en el editText (email/pass) ha cambiado
+            loginViewModel.onLoginChanged(email = it,
+                password = password)  //le avisa al viewModel que el valor que se esta modificando en el editText (email/pass) ha cambiado
         }
         Spacer(modifier = Modifier.size(4.dp))
         Password(password) {
@@ -104,7 +110,7 @@ fun Body(modifier: Modifier, loginViewModel: LoginViewModel) {
         Spacer(modifier = Modifier.size(8.dp))
         ForgotPassword(Modifier.align(Alignment.End))
         Spacer(modifier = Modifier.size(16.dp))
-        LoginButton(isLoginEnable)  //esto ya esta enganchado al liveData
+        LoginButton(isLoginEnable, loginViewModel)  //esto ya esta enganchado al liveData
         Spacer(modifier = Modifier.size(16.dp))
         LoginDivider()
         Spacer(modifier = Modifier.size(32.dp))
@@ -160,9 +166,9 @@ fun LoginDivider() {
 }
 
 @Composable
-fun LoginButton(loginEnable: Boolean) {
+fun LoginButton(loginEnable: Boolean, loginViewModel: LoginViewModel) {
     Button(
-        onClick = { },
+        onClick = { loginViewModel.onLoginSelected() },
         enabled = loginEnable,
         modifier = Modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(
