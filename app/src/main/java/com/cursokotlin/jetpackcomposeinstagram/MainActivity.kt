@@ -10,6 +10,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.cursokotlin.jetpackcomposeinstagram.login.ui.Header
+import com.cursokotlin.jetpackcomposeinstagram.login.ui.LoginScreen
+import com.cursokotlin.jetpackcomposeinstagram.login.ui.LoginViewModel
 import com.cursokotlin.jetpackcomposeinstagram.ui.theme.JetpackComposeInstagramTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,7 +25,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    //aca se instancia el LoginViewModel
+                    //lo correcto seria inyectar al LoginScreen el LoginViewModel
+                    LoginScreen(LoginViewModel())
                 }
             }
         }
