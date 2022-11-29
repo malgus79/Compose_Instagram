@@ -10,6 +10,9 @@ Este objeto permite crear una instancia de retrofit para el consumo de api
 Lo ideal seria que fuese una clase singleton inyectada con inyeccion de dependencia
 */
 
+/*
+al configurar di, ésta clase se elimina:
+
 object RetrofitHelper {
     fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
@@ -17,4 +20,4 @@ object RetrofitHelper {
             .addConverterFactory(GsonConverterFactory.create()) //convierte el gson que viene en nuestra data class
             .build() //crear el objeto retrofit
     }
-}
+}*/
