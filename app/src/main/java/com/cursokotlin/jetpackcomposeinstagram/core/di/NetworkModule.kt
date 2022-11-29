@@ -1,5 +1,6 @@
 package com.cursokotlin.jetpackcomposeinstagram.core.di
 
+import com.cursokotlin.jetpackcomposeinstagram.login.data.network.LoginClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,5 +20,11 @@ class NetworkModule {
             .baseUrl("https://run.mocky.io/")
             .addConverterFactory(GsonConverterFactory.create()) //convierte el gson que viene en nuestra data class
             .build() //crear el objeto retrofit
+    }
+
+    @Singleton
+    @Provides
+    fun provideLoginClient(retrofit: Retrofit) : LoginClient{
+        return retrofit.create(LoginClient::class.java)
     }
 }
