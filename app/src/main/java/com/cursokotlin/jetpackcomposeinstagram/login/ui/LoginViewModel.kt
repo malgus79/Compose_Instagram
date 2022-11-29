@@ -7,16 +7,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cursokotlin.jetpackcomposeinstagram.login.domain.LoginUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /*
 aca va toda la logica (no debe ir en ninguna activity o fragments)
 
 .value = se usa para acceder al LiveData
 */
-class LoginViewModel:ViewModel() {
 
-    val loginUseCase = LoginUseCase()
+@HiltViewModel
+class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase) :ViewModel() {
+
+//    val loginUseCase = LoginUseCase()
 
     private val _email = MutableLiveData<String>()  //es mutable porque SOLO se va a poder modificar internamente
     val email : LiveData<String> = _email  //este NO se va a poder modificar -> las vistas solo pueden leer y no modificar
